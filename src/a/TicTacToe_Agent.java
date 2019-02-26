@@ -1,7 +1,9 @@
+package a;
+
 import java.util.ArrayList;
 
 /**
- * TicTacToe-Agent für Übungen mit Rekursion
+ * a.TicTacToe-Agent für Übungen mit Rekursion
  * Übungsaufgabe in Zeile 73.
  *  
  * @author LorenzUw
@@ -58,9 +60,9 @@ public class TicTacToe_Agent
 		
 		// Habe ich einen Gewinnzustand mit Belohnung erreicht?
 		double reward = holeBelohnung(feld, spieler);
-	    if ((reward!=0)||(A.size()==0)) // Wenn Gewinnzustand erreicht ist oder Feld voll, dann Rückgabe der Belohnung. 
+	    if ((reward!=0)||(A.size()==0)) // Wenn Gewinnzustand erreicht ist oder Feld voll, dann Rückgabe der Belohnung.
 	    {
-	         return reward; 
+	         return reward;
 	    }
 	   
 	    // Spielerwechsel, um Gegnerzüge zu bewerten
@@ -76,13 +78,20 @@ public class TicTacToe_Agent
 	       also minimalen Gewinn, bzw. einen "maximalen Negativ-Wert", für 
 	       den Spieler produziert.  
 	     */
-	   
+	    double wmin = 999999;
+	    double w=0;
+		for (int i = 0; i < A.size(); i++) {
+			feld[A.get(i)] = spieler;
+			w= - feldbewertung(spieler);
+			feld[A.get(i)] = '-';
+			if(w<wmin)
+				wmin=w;
+		}
 	    
 	    
 	    
 	    
-	    
-	    return 0;
+	    return wmin;
 	 }
 
 	/**

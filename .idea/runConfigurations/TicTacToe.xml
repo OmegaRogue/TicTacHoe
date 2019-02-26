@@ -1,7 +1,21 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TicTacToe" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="TicTacToe" />
+    <option name="MAIN_CLASS_NAME" value="a.TicTacToe" />
     <module name="TicTacToe" />
+    <option name="PROGRAM_PARAMETERS" value="gui" />
+    <extension name="coverage" sample_coverage="false">
+      <pattern>
+        <option name="PATTERN" value="a.TicTacToe_Agent" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <extension name="recording" autostart="true">
+      <include_pattern>
+        <option name="PATTERN" value="a.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="true" />
+      </include_pattern>
+    </extension>
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

@@ -1,3 +1,5 @@
+package a;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,9 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import java.util.Scanner;
 
 /**
- * TicTacToe Umgebung für einen TicTacToe-Agenten.
+ * a.TicTacToe Umgebung für einen a.TicTacToe-Agenten.
  * @author LorenzUw
  * @version 1.1 (10.2.2019)
  */
@@ -18,10 +21,11 @@ public class  TicTacToe  extends JFrame implements ActionListener
 	private int zaehler = 0;
 
 	private ImageIcon x_bild = new ImageIcon("images/x.png");
-	private ImageIcon o_bild = new ImageIcon("images/o.png");		
-
+	private ImageIcon o_bild = new ImageIcon("images/o.png");
 	private JButton[] btFeld = new JButton[9];
-	
+
+	char[] spielfeld;
+
 	private final static char winCaseList[][] =
 		{
 				{2,4,6},
@@ -32,26 +36,38 @@ public class  TicTacToe  extends JFrame implements ActionListener
 				{0,1,2},
 				{3,4,5},
 				{6,7,8}};
+	private Scanner sc = new Scanner(System.in);
 	
 	private TicTacToe_Agent ttt_agent = new TicTacToe_Agent();
 
 	public static void main(String[] args)
 	{
-		TicTacToe mlw = new TicTacToe();
-		mlw.setVisible(true);
+
+		if(args[0].equals("gui")) {
+			TicTacToe mlw = new TicTacToe();
+			mlw.setVisible(true);
+		}
+		else if(args[0].equals("cmd")) {
+			System.out.println("Starting a new game.");
+			System.out.println(
+					"- - -\n" +
+					"- - -\n" +
+					"- - -"
+			);
+		}
+
 	}
 
 	/**
-	 * Konstruktor für das TicTacToe-Feld
+	 * Konstruktor für das a.TicTacToe-Feld
 	 */
 	public TicTacToe()
 	{
 		setSize(400, 400);
 		setResizable(false);
 		setLocation(450, 450);
-		setTitle("TicTacToe");
+		setTitle("a.TicTacToe");
 		getContentPane().setLayout(new GridLayout(3,3));
-		
 		for(int z=0; z<=8; z=z+1)
 		{
 			btFeld[z] = new JButton ("");	
@@ -95,8 +111,8 @@ public class  TicTacToe  extends JFrame implements ActionListener
 			return;
 		}
 		
-		/* KI: 
-		char[] spielfeld =  produziereSpielfeldMatrix() ;
+		//KI:
+		spielfeld =  produziereSpielfeldMatrix() ;
 		int a = ttt_agent.gibBesteAktion(spielfeld,'o');		
 		ausfuehren(a,'o');
 	    c = pruefeMatrixGewonnen(produziereSpielfeldMatrix());
@@ -105,7 +121,6 @@ public class  TicTacToe  extends JFrame implements ActionListener
 			System.out.println("Es hat "+c+" gewonnen!");
 		}
 		zaehler = zaehler+1;
-		*/
 		
 	}
 	
@@ -171,6 +186,9 @@ public class  TicTacToe  extends JFrame implements ActionListener
 			sfmatrix[i] = pruefeFeld(i);
 		}
 		return sfmatrix;
+	}
+	public void printBoard() {
+
 	}
 	
 }
