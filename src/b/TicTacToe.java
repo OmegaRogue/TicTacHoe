@@ -15,13 +15,22 @@ import java.util.Scanner;
 @SuppressWarnings("serial")
 public class  TicTacToe  extends JFrame implements ActionListener
 {
-	private int zaehler = 0;
+	static TicTacToe tic;
+	private static int zaehler = 0;
 
 	private ImageIcon x_bild = new ImageIcon("images/x.png");
 	private ImageIcon o_bild = new ImageIcon("images/o.png");
 	private JButton[] btFeld = new JButton[9];
 
-	char[] spielfeld;
+	static boolean ki = true;
+
+	private char[] spielfeld;
+	String feld = "- - -\n" +
+			"- - -\n" +
+			"- - -";
+	StringBuilder feldBuilder = new StringBuilder("- - -\n" +
+			"- - -\n" +
+			"- - -");
 
 	private final static char winCaseList[][] =
 		{
@@ -33,15 +42,15 @@ public class  TicTacToe  extends JFrame implements ActionListener
 				{0,1,2},
 				{3,4,5},
 				{6,7,8}};
-	private Scanner sc = new Scanner(System.in);
+	private static Scanner sc = new Scanner(System.in);
 	
 	private TicTacToe_Agent ttt_agent = new TicTacToe_Agent();
 
 	public static void main(String[] args)
 	{
-
+		ki = Boolean.parseBoolean(args[1]);
+		TicTacToe mlw = new TicTacToe();
 		if(args[0].equals("gui")) {
-			TicTacToe mlw = new TicTacToe();
 			mlw.setVisible(true);
 		}
 		else if(args[0].equals("cmd")) {
@@ -51,7 +60,12 @@ public class  TicTacToe  extends JFrame implements ActionListener
 					"- - -\n" +
 					"- - -"
 			);
+			mlw.setVisible(false);
+			while(true) {
+				mlw.action();
+			}
 		}
+
 
 	}
 
@@ -72,6 +86,53 @@ public class  TicTacToe  extends JFrame implements ActionListener
 			getContentPane().add(btFeld[z]);
 		}
 	}
+
+	public void action()
+	{
+		System.out.println("Zug " +zaehler);
+		int f = sc.nextInt();
+
+		if(feldBuilder.charAt(f*2) != '-')
+		{
+			return;
+		}
+
+		if (zaehler%2 ==0)
+		{
+			ausfuehren(f*2,'o');
+		}else{
+			ausfuehren(f*2,'x');
+
+		}
+		zaehler = zaehler+1;
+
+		if(zaehler>=9)
+		{
+			System.exit(0);
+		}
+
+		char c = pruefeMatrixGewonnen(produziereSpielfeldMatrix());
+		if (c!='-')
+		{
+			System.out.println("Es hat "+c+" gewonnen!");
+			return;
+		}
+
+		//KI:
+		if(ki){
+			spielfeld =  produziereSpielfeldMatrix() ;
+			int a = ttt_agent.gibBesteAktion(spielfeld,'o');
+			ausfuehren(a,'o');
+			c = pruefeMatrixGewonnen(produziereSpielfeldMatrix());
+			if (c!='-')
+			{
+				System.out.println("Es hat "+c+" gewonnen!");
+			}
+			zaehler = zaehler+1;
+		}
+
+
+	}
 	
 	/**
 	 * Verarbeitet Mausereignisse von den Buttons.
@@ -91,8 +152,15 @@ public class  TicTacToe  extends JFrame implements ActionListener
 		if (zaehler%2 ==0)
 		{
 			knopf.setIcon(x_bild);
+			for (int i = 0; i < btFeld.length; i++) {
+				if(btFeld[i].equals(knopf)) feldBuilder.setCharAt(i*2,'x');
+			}
 		}else{
 			knopf.setIcon(o_bild);
+			for (int i = 0; i < btFeld.length; i++) {
+				if(btFeld[i].equals(knopf)) feldBuilder.setCharAt(i*2,'o');
+			}
+
 		}
 		zaehler = zaehler+1;
 
@@ -109,15 +177,18 @@ public class  TicTacToe  extends JFrame implements ActionListener
 		}
 		
 		//KI:
-		spielfeld =  produziereSpielfeldMatrix() ;
-		int a = ttt_agent.gibBesteAktion(spielfeld,'o');		
-		ausfuehren(a,'o');
-	    c = pruefeMatrixGewonnen(produziereSpielfeldMatrix());
-		if (c!='-')
-		{
-			System.out.println("Es hat "+c+" gewonnen!");
+		if(ki) {
+			spielfeld =  produziereSpielfeldMatrix() ;
+			int a = ttt_agent.gibBesteAktion(spielfeld,'o');
+			ausfuehren(a,'o');
+			c = pruefeMatrixGewonnen(produziereSpielfeldMatrix());
+			if (c!='-')
+			{
+				System.out.println("Es hat "+c+" gewonnen!");
+			}
+			zaehler = zaehler+1;
 		}
-		zaehler = zaehler+1;
+
 		
 	}
 	
@@ -128,12 +199,17 @@ public class  TicTacToe  extends JFrame implements ActionListener
 	 */
 	public void ausfuehren(int fnr, char c)
 	{
+		feldBuilder.setCharAt(fnr*2,c);
 		if (c == 'x' )
 		{
 			btFeld[fnr].setIcon(x_bild);
+
+
 		}else{
 			btFeld[fnr].setIcon(o_bild);
 		}
+		System.out.println(feldBuilder);
+
 	}
 	
 	/**
@@ -182,10 +258,17 @@ public class  TicTacToe  extends JFrame implements ActionListener
 		{
 			sfmatrix[i] = pruefeFeld(i);
 		}
+
 		return sfmatrix;
 	}
-	public void printBoard() {
-
+	public void board(char[] matrix) {
+		feld = "";
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				feld+=matrix[i+j];
+			}
+			feld+="\n";
+		}
 	}
 	
 }

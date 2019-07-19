@@ -122,7 +122,7 @@ public class TicTacToe_Agent
 		int i=0;
 		for (int wi: lstI)
 		{
-			System.out.println("Bewertung:"+wi+" für Aktion:"+A.get(i));
+//			System.out.println("Bewertung:"+wi+" für Aktion:"+A.get(i));
 			i++;
 		}
 		return amax;
