@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="TicTacToe" type="Application" factoryName="Application">
+  <configuration default="false" name="TicTacToe" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="a.TicTacToe" />
     <module name="TicTacToe" />
     <option name="PROGRAM_PARAMETERS" value="gui" />
